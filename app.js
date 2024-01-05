@@ -1,6 +1,6 @@
 import express from "express";
 const app = express();
-const port = 3001;
+const port = process.env.PORT;
 
 import route from "./routes/routes.js";
 app.use(route);
