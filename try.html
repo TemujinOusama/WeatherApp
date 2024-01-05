@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Temperature Conversion Hover</title>
+</head>
+<body>
+
+<span id="temperature">20°C</span>
+
+<script>
+function toFahrenheit(celsius) {
+  return celsius * 9/5 + 32;
+}
+
+const temperatureEl = document.getElementById("temperature");
+
+temperatureEl.addEventListener("mouseover", function() {
+  const celsius = parseInt(temperatureEl.textContent.slice(0, -1));
+  const fahrenheit = toFahrenheit(celsius).toFixed(1);
+  temperatureEl.textContent = `${fahrenheit}°F`;
+});
+
+temperatureEl.addEventListener("mouseout", function() {
+  temperatureEl.textContent = `${celsius}°C`;
+});
+</script>
+
+</body>
+</html>

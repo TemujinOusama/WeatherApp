@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Forecast</title>
+  <link rel="stylesheet" href="../css/home.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+</head>
+<body>
+  
+  <div id="container">
+    
+    
+    <div id="weather-header-container">
+      <h1>WEATHER FORECAST</h1>
+
+      <div class="input-wrapper">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Location" id="location-input" >
+      </div>
+      <!-- <input type="text" placeholder="&#xf0f9; Location" id="location-input" class="fas" style="font-family:'Helvetica', sans-serif;"> -->
+    </div>
+
+    <div id="modal-container">
+      <dialog open="true" id="details-modal">
+        <div id="location-container">
+          <div id="location-wrapper">
+            <h1 id="location"></h1>
+            <i class="fas fa-map-marker-alt" id="location-icon"></i>
+          </div>
+          
+          <h4 id="region-country-container"><span id="region"></span>, <span id="country"></span></h4>
+        </div>
+        
+
+        <div id="condition-container">
+          
+          <h1 id="temperature"><span id="temperature-span"></span><span>&degC</span></h1>
+          <h2 id="condition"></h2>
+          <h3 id="feels-like">Feels Like: <span id="feels-like-span"></span> <span>&degC</span></h3>
+        </div>
+        <div id="time-container">
+          <h1 id="time"><span id="time-span"></span> <span id="timezone"></span></h1>
+          <h2 id="full-date"></h2>
+          <h4 id="country-zone"></h4>
+        </div>
+
+        <div id="specifics">
+          <h3 id="wind-speed">Wind Speed: <span id="wind-speed-span"></span> <span>mph</span></h3>
+          <h3 id="wind-degree">Wind Degree: <span id="wind-degree-span"></span><span>&deg</span></h3>
+          <h3 id="wind-direction">Wind Direction: <span id="wind-direction-span"></span></h3>
+          <h3 id="pressure">Pressure: <span id="pressure-span"></span> <span>millibar</span></h3>
+          <h3 id="precipitation">Precipitation: <span id="precipitation-span"></span> <span>mm</span></h3>
+          <h3 id="humidity">Humidity: <span id="humidity-span"></span></h3>
+          <h3 id="uv-index">UV Index: <span id="uv-index-span"></span></h3>
+          <h3 id="gust">Gust in mph: <span id="gust-span"></span> <span>mph</span></h3>
+          <h3 id="last-updated">Last updated: <span id="last-updated-span"></span></h3>
+        </div>
+      
+      </dialog>
+      <dialog id="loading-prompt" >
+        <h1></h1>
+      </dialog>
+    </div>
+    
+  </div>
+  
+  
+  
+  
+  <script src="../js/home.js"></script>
+ 
+
+</body>
+
+</html>
