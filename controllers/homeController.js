@@ -17,7 +17,6 @@ export const postHome = async (req, res) => {
   const response = await fetch(url);
   if (response.ok) {
     const data = await response.json();
-
     const prompt = await processPromptForModel(data);
     console.log(prompt);
     const imgUrl = await getImage(prompt);
@@ -29,13 +28,25 @@ export const postHome = async (req, res) => {
   }
 };
 async function processPromptForModel(data) {
-  const localtime = data.location.localtime.split(" ");
+  //const localtime = data.location.localtime.split(" ");
   const daytime = data.current.is_day === 1 ? "daytime" : "nighttime";
-  const modelPrompt = `can you create an image for me? I am using the image you will generate for weather forecasting. Here are the details for the image: It is ${daytime} Location: ${
-    data.location.region + " " + data.location.country
-  }, Time: ${localtime[1]}, Temperature in degrees Celsius: ${
-    data.current.temp_c
-  }, Condition: ${data.current.condition.text}`;
+  // const modelPrompt = `can you create an image for me? I am using the image you will generate for weather forecasting. Here are the details for the image: It is ${daytime} Location: ${
+  //   data.location.region + " " + data.location.country
+  // }, Time: ${localtime[1]}, Temperature in degrees Celsius: ${
+  //   data.current.temp_c
+  // }, Condition: ${data.current.condition.text}`;
+  let location = "";
+  if (data.location.region) {
+    location =
+      data.location.name +
+      " " +
+      data.location.region +
+      " " +
+      data.location.country;
+  } else {
+    location = data.location.name + " " + data.location.country;
+  }
+  const modelPrompt = `can you generate me an image of ${location} where it is ${daytime} and it is ${data.current.condition.text}`;
 
   return modelPrompt;
 }

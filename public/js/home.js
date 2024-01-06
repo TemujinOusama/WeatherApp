@@ -6,16 +6,16 @@ const loadingPromptH1 = loadingPrompt.querySelector("h1");
 
 input.addEventListener("keyup", async (event) => {
   if (event.key === "Enter") {
-    console.log("entered");
-
     detailsModal.style.display = "none";
     loadingPrompt.style.display = "grid";
-    loadingPromptH1.innerText = "Loading...";
+    loadingPromptH1.innerText = "Chat-GPT is generating an image...";
 
     const location = document.getElementById("location-input").value;
     const weatherData = await getWeatherData(location);
+
     if (weatherData.ok) {
       console.log("success");
+
       const result = await weatherData.json();
       body.style.backgroundImage = `url(${result.imgUrl})`;
       console.log(result);
@@ -41,7 +41,7 @@ async function placeValues(value) {
   const time = document.getElementById("time-span");
   const timezone = document.getElementById("timezone");
   const fullDate = document.getElementById("full-date");
-  const countryZone = document.getElementById("country-zone");
+
   const temperature = document.getElementById("temperature-span");
   const condition = document.getElementById("condition");
   const feelsLike = document.getElementById("feels-like-span");
@@ -65,10 +65,8 @@ async function placeValues(value) {
 
   const date = parseDate(result.data.location.localtime);
   time.innerText = date.time;
-  timezone.innerText = date.timeZone;
-  fullDate.innerText =
-    date.day + " " + date.month + " " + date.date + ", " + date.year;
-  countryZone.innerText = date.countryTime;
+  timezone.innerText = date.meridiem;
+  fullDate.innerText = `${date.day}, ${date.month} ${date.date}, ${date.year}`;
 
   windSpeed.innerText = result.data.current.wind_mph;
   windDegree.innerText = result.data.current.wind_degree;
@@ -81,32 +79,64 @@ async function placeValues(value) {
   lastUpdated.innerText = result.data.current.last_updated;
 }
 function parseDate(dateString) {
-  let formattedDateString = dateString.replace(/-/g, "/") + " UTC";
-  let parsedDate = Date.parse(formattedDateString);
-  let parsedDateObject = new Date(parsedDate);
+  const originalDateStr = dateString;
 
-  const stringDate = parsedDateObject.toString();
+  // Parse the date string to a Date object
+  const originalDate = new Date(originalDateStr);
 
-  const stringDateObject = stringDate.split(" ");
+  // Format the Date object with the day of the week
+  const formattedDate = originalDate.toLocaleString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  });
+  const nocommaDateString = formattedDate.split(",").join("");
+  const finalDateString = nocommaDateString.split(" ");
 
-  const dateObject = {
-    day: stringDateObject[0],
-    month: stringDateObject[1],
-    date: stringDateObject[2],
-    year: stringDateObject[3],
-    time: stringDateObject[4],
-    timeZone: stringDateObject[5],
-
-    countryTime:
-      stringDateObject[6] +
-      " " +
-      stringDateObject[7] +
-      " " +
-      stringDateObject[8],
+  const finalDateStringObject = {
+    day: finalDateString[0],
+    month: finalDateString[1],
+    date: finalDateString[2],
+    year: finalDateString[3],
+    time: finalDateString[5],
+    meridiem: finalDateString[6],
   };
-
-  return dateObject;
+  return finalDateStringObject;
 }
+// function parseDate(dateString) {
+//   let formattedDateString = dateString.replace(/-/g, "/") + " UTC";
+//   console.log(" formatted date string", formattedDateString);
+//   let parsedDate = Date.parse(formattedDateString);
+//   console.log("parsed date", parsedDate);
+//   let parsedDateObject = new Date(parsedDate);
+//   console.log(" parsed date object", parsedDateObject);
+
+//   const stringDate = parsedDateObject.toString();
+
+//   const stringDateObject = stringDate.split(" ");
+
+//   const dateObject = {
+//     day: stringDateObject[0],
+//     month: stringDateObject[1],
+//     date: stringDateObject[2],
+//     year: stringDateObject[3],
+//     time: stringDateObject[4],
+//     timeZone: stringDateObject[5],
+
+//     countryTime:
+//       stringDateObject[6] +
+//       " " +
+//       stringDateObject[7] +
+//       " " +
+//       stringDateObject[8],
+//   };
+//   console.log("date object", dateObject);
+
+//   return dateObject;
+// }
 async function getWeatherData(location) {
   if (location.length != 0) {
     const response = await fetch("/home", {
